@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Created for Superbright by Patrick Cleary",
-  "license": "UNLICENSED",
+  "license": "GNU General Public License v3.0",
   "dependencies": {
     "aws-iot-device-sdk": "^2.0.1",
     "node-grovepi": "^2.2.0"
