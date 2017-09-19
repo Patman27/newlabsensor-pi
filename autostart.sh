@@ -34,9 +34,6 @@
 # "newlabsensor-pi start" and stopped with "newlabsensor-pi stop".
 # See https://github.com/chovy/node-startup for info on how to
 # edit this behavior.
-#
-#
-# last edited by Patrick on 2017-09-18
 
 
 # Allows the Linux system to boot before the shell script kicks in
