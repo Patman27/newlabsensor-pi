@@ -1,6 +1,9 @@
 node_modules
 
-aws-iot-keys
+aws-iot-keys/*.key
+aws-iot-keys/*.pem
+
+s3-upload/config.json
 
 log
 logs
