@@ -1,3 +1,12 @@
+This component is forked from chovy's "node-startup" project, found here: https://github.com/chovy/node-startup
+
+To get this to work with newlabsensor-pi, add a symbolic link under `/etc/init.d` that points to this file. To do this, use the following terminal command:
+
+`sudo ln -s /home/pi/newlabsensor-pi/node-startup/init.d/newlabsensor-pi-node-app newlabsensor-pi-node-app`
+
+Also make sure that this file is owned by `root` and has permissions set to `755`.
+
+
 # node-startup
 
 Startup script for Linux-based systems for running a [Node.js](http://nodejs.org/) app when rebooting, using an **/etc/init.d** script.
