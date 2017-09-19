@@ -7,7 +7,6 @@
  * For installation instructions, please consult http://github.com/nodesource/distributions
  * under the heading "Installation Instructions".
  *
- * last edited by Patrick on 2017-09-08
  */
 
 // Prints sensor data to the terminal if enabled
