@@ -1,3 +1,5 @@
+This component is from Mark A West's "smart-security-camera" project, found here: https://github.com/markwest1972/smart-security-camera/tree/master/s3-upload
+
 
 # s3-upload 
 
