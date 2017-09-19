@@ -1,0 +1,11 @@
+node_modules
+
+aws-iot-keys
+
+log
+logs
+*.log
+
+pid
+pids
+*.pid
