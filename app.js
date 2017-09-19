@@ -26,9 +26,9 @@ var awsIoT = require('aws-iot-device-sdk');
 
 // AWS IoT client identifiers
 var device = awsIoT.device({
-	keyPath: './aws-iot-keys/newlabsensor-test-1.private.key', // this device's private key path
-	certPath: './aws-iot-keys/newlabsensor-test-1.cert.pem', // this device's certificate path
-	caPath: './aws-iot-keys/root-CA.crt', // root CA certificate path
+	keyPath: './aws-keys/newlabsensor-test-1.private.key', // this device's private key path
+	certPath: './aws-keys/newlabsensor-test-1.cert.pem', // this device's certificate path
+	caPath: './aws-keys/root-CA.crt', // root CA certificate path
 	clientID: deviceName, // this device's unique client identifier
 	host: 'a3958o3k876wh2.iot.us-east-1.amazonaws.com' // this device's unique custom endpoint
 });

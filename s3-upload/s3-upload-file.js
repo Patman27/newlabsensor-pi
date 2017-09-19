@@ -16,7 +16,7 @@ var path = require('path');
 var fs = require('fs');
 
 // Load configration file
-AWS.config.loadFromPath('/home/pi/newlabsensor-pi/s3-upload/config.json');
+AWS.config.loadFromPath('/home/pi/newlabsensor-pi/aws-keys/s3-upload-config.json');
 
 // Create S3 service object
 s3 = new AWS.S3({apiVersion: '2006-03-01'});
@@ -25,7 +25,7 @@ s3 = new AWS.S3({apiVersion: '2006-03-01'});
 var file = process.argv[3];
 var fileStream = fs.createReadStream(file);
 fileStream.on('error', function(err) {
-  
+
     console.log('File Error', err);
 });
 
