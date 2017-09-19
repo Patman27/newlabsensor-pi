@@ -41,8 +41,9 @@ sleep 20
 
 
 # Task 1 (see above)
-sudo ip route add default dev eth1
 sudo ip route delete default dev eth0
+sleep 2
+sudo ip route add default dev eth1
 
 
 # Task 2 (see above)
