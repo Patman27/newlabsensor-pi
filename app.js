@@ -10,7 +10,7 @@
  */
 
 // Prints sensor data to the terminal if enabled
-debugEnabled = 0;
+var debugEnabled = false;
 
 // Dependencies needed to allow system shutdown via Node.js
 var util = require('util');
@@ -66,6 +66,13 @@ var soundCapturePeriod = 5000;
 // Grove pushbutton timeout to initiate Pi shutdown, in milliseconds
 var shutdownButtonTimeout = 3000;
 
+// Sends a periodic "heartbeat" to AWS to confirm the system is still operational
+var heartbeatEnabled = true;
+
+// Period for "heartbeat", in minutes
+var heartbeatPeriod = 5;
+
+// -------- Begin code --------
 
 // Intantiate the GrovePi board and add sensors
 var board = new Board({
@@ -82,17 +89,17 @@ var board = new Board({
 			var pirSensor = new pirDigitalSensor(pirSensorPin);
 			if (debugEnabled){
 				console.log('PIR Digital Sensor (start watch)');
-			};
+			}
 			pirSensor.on('change', function(res) {
 				var output = {
 					clientID:deviceName,
 					timestamp:new Date().toISOString(),
 					motionDetected:res
-				};
+				}
 				device.publish(pirTopic, JSON.stringify(output, null, 2));
 				if (debugEnabled) {
 					console.log(JSON.stringify(output, null, 2));
-				};
+				}
 			});
 			pirSensor.watch(200); // delay referenced from GrovePi Python example code
 
@@ -100,7 +107,7 @@ var board = new Board({
 			var soundSensor = new soundAnalogSensor(soundSensorPin);
 			if (debugEnabled) {
 				console.log('Sound Analog Sensor (start monitoring - reporting results every ' + (soundCapturePeriod/1000) + ' seconds)');
-			};
+			}
 			soundSensor.start();
 			setInterval(soundSensorGetAvgMax, soundCapturePeriod, soundSensor);
 
@@ -108,7 +115,7 @@ var board = new Board({
 			var shutdownButton = new buttonDigitalSensor(shutdownButtonPin, shutdownButtonTimeout);
 			if (debugEnabled){
 				console.log('Shutdown Button Sensor (start watch)');
-			};
+			}
 			// Shut the system down in the event of a long press + release, and log to AWS
 			shutdownButton.on('down', function(res) {
 				if (res == 'longpress') {
@@ -117,14 +124,14 @@ var board = new Board({
 						timestamp:new Date().toISOString(),
 						status:'shutdown-button',
 						message:'System shutdown initiated - shutdown button pressed for longer than ' + (shutdownButtonTimeout/1000) + ' seconds'
-					};
+					}
 					device.publish(systemTopic, JSON.stringify(output, null, 2));
 					console.log(JSON.stringify(output, null, 2));
 					initiateShutdown();
-				};
+				}
 			});
 			shutdownButton.watch();
-		};
+		}
 	}
 });
 
@@ -137,12 +144,12 @@ function soundSensorGetAvgMax(soundSensor) {
 	timestamp:new Date().toISOString(),
 	soundAvgValue:Math.round(res.avg),
 	soundMaxValue:res.max
-	};
+	}
 	device.publish(soundTopic, JSON.stringify(output, null, 2));
 	if (debugEnabled) {
 		console.log(JSON.stringify(output, null, 2));
-	};
-};
+	}
+}
 
 
 // Exit function, referenced from GrovePi's "basicTest.js"
@@ -152,7 +159,7 @@ function onExit (err) {
 		timestamp:new Date().toISOString(),
 		status:'exit-terminal',
 		message:'Node app exited via terminal'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 	console.log('Exiting...');
@@ -172,7 +179,7 @@ device.on('connect', function() {
 		timestamp:new Date().toISOString(),
 		status:'iot-connected',
 		message:'AWS IoT connected'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 });
@@ -183,7 +190,7 @@ device.on('close', function() {
 		timestamp:new Date().toISOString(),
 		status:'iot-closed',
 		message:'AWS IoT closed'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 });
@@ -194,7 +201,7 @@ device.on('reconnect', function() {
 		timestamp:new Date().toISOString(),
 		status:'iot-reconnected',
 		message:'AWS IoT reconnected'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 });
@@ -205,7 +212,7 @@ device.on('offline', function() {
 		timestamp:new Date().toISOString(),
 		status:'iot-offline',
 		message:'AWS IoT offline'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 });
@@ -216,7 +223,7 @@ device.on('error', function() {
 		timestamp:new Date().toISOString(),
 		status:'iot-error',
 		message:'AWS IoT error'
-	};
+	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
 	console.log(JSON.stringify(output, null, 2));
 });
@@ -224,6 +231,25 @@ device.on('error', function() {
 
 // Initialize the GrovePi System
 board.init();
+
+// Function for the "heartbeat" to be sent to AWS
+function heartbeat() {
+	var output = {
+		clientID:deviceName,
+		timestamp:new Date().toISOString(),
+		status:'heartbeat',
+		message:'System online'
+	}
+	device.publish(systemTopic, JSON.stringify(output, null, 2));
+	if (debugEnabled) {
+		console.log(JSON.stringify(output, null, 2));
+	}
+}
+
+// Sends the "heartbeat" to AWS periodically, multiplying milliseconds to minutes
+if (heartbeatEnabled) {
+	setInterval(heartbeat, (heartbeatPeriod * 60000));
+}
 
 // Catches the ctrl+C event
 process.on('SIGINT', onExit);
