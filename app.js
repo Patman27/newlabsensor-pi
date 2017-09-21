@@ -61,7 +61,7 @@ var soundSensorPin = 1; // analog input for the sound sensor
 var shutdownButtonPin = 4; // digital input for the pushbutton used for system shutdown
 
 // Grove sound sensor capture period, in milliseconds
-var soundCapturePeriod = 10000;
+var soundCapturePeriod = 5000;
 
 // Grove pushbutton timeout to initiate Pi shutdown, in milliseconds
 var shutdownButtonTimeout = 3000;
