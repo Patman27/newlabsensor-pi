@@ -9,3 +9,5 @@ logs
 pid
 pids
 *.pid
+
+.DS_Store
