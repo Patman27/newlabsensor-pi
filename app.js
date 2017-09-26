@@ -248,7 +248,7 @@ function heartbeat() {
 
 // Sends the "heartbeat" to AWS periodically, multiplying milliseconds to minutes
 if (heartbeatEnabled == true) {
-	setInterval(heartbeat, (heartbeatPeriod * 60000));
+	setInterval(heartbeat(), (heartbeatPeriod * 60000));
 }
 
 // Catches the ctrl+C event
