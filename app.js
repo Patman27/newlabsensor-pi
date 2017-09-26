@@ -70,7 +70,7 @@ var shutdownButtonTimeout = 3000;
 var heartbeatEnabled = true;
 
 // Period for "heartbeat", in minutes
-var heartbeatPeriod = 5;
+var heartbeatPeriod = 0.1;
 
 // -------- Begin code --------
 
