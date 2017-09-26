@@ -165,7 +165,7 @@ function onExit (err) {
 	console.log('Exiting...');
 	board.close();
 	process.removeAllListeners();
-	process.exit();
+	process.exit();	
 	if (typeof err != 'undefined') {
 		console.log(err);
 	}
