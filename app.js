@@ -10,7 +10,7 @@
  */
 
 // Prints sensor data to the terminal if enabled
-var debugEnabled = true;
+var debugEnabled = false;
 
 // Dependencies needed to allow system shutdown via Node.js
 var util = require('util');
@@ -64,7 +64,7 @@ var shutdownButtonPin = 4; // digital input for the pushbutton used for system s
 var soundCapturePeriod = 5000;
 
 // Grove pushbutton timeout to initiate Pi shutdown, in milliseconds
-var shutdownButtonTimeout = 3000;
+var shutdownButtonTimeout = 5000;
 
 // Sends a periodic "heartbeat" to AWS to confirm the system is still operational
 var heartbeatEnabled = true;
@@ -127,7 +127,7 @@ var board = new Board({
 					}
 					device.publish(systemTopic, JSON.stringify(output, null, 2));
 					console.log(JSON.stringify(output, null, 2));
-					// initiateShutdown();
+					initiateShutdown();
 				}
 			});
 			shutdownButton.watch();
@@ -165,7 +165,7 @@ function onExit (err) {
 	console.log('Exiting...');
 	board.close();
 	process.removeAllListeners();
-	process.exit();	
+	process.exit();
 	if (typeof err != 'undefined') {
 		console.log(err);
 	}
