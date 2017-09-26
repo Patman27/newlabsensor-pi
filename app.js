@@ -87,7 +87,7 @@ var board = new Board({
 
 			// Begin monitoring the PIR sensor with the Grove "watch" method
 			var pirSensor = new pirDigitalSensor(pirSensorPin);
-			if (debugEnabled){
+			if (debugEnabled == true){
 				console.log('PIR Digital Sensor (start watch)');
 			}
 			pirSensor.on('change', function(res) {
@@ -97,7 +97,7 @@ var board = new Board({
 					motionDetected:res
 				}
 				device.publish(pirTopic, JSON.stringify(output, null, 2));
-				if (debugEnabled) {
+				if (debugEnabled == true) {
 					console.log(JSON.stringify(output, null, 2));
 				}
 			});
@@ -105,7 +105,7 @@ var board = new Board({
 
 			// Begin monitoring the sound sensor for max and average values with the Grove "start" method
 			var soundSensor = new soundAnalogSensor(soundSensorPin);
-			if (debugEnabled) {
+			if (debugEnabled == true) {
 				console.log('Sound Analog Sensor (start monitoring - reporting results every ' + (soundCapturePeriod/1000) + ' seconds)');
 			}
 			soundSensor.start();
@@ -113,7 +113,7 @@ var board = new Board({
 
 			// Begin watching the shutdown button for a long press + release with the Grove "watch" method
 			var shutdownButton = new buttonDigitalSensor(shutdownButtonPin, shutdownButtonTimeout);
-			if (debugEnabled){
+			if (debugEnabled == true){
 				console.log('Shutdown Button Sensor (start watch)');
 			}
 			// Shut the system down in the event of a long press + release, and log to AWS
@@ -146,7 +146,7 @@ function soundSensorGetAvgMax(soundSensor) {
 	soundMaxValue:res.max
 	}
 	device.publish(soundTopic, JSON.stringify(output, null, 2));
-	if (debugEnabled) {
+	if (debugEnabled == true) {
 		console.log(JSON.stringify(output, null, 2));
 	}
 }
@@ -241,13 +241,13 @@ function heartbeat() {
 		message:'System online'
 	}
 	device.publish(systemTopic, JSON.stringify(output, null, 2));
-	if (debugEnabled) {
+	if (debugEnabled == true) {
 		console.log(JSON.stringify(output, null, 2));
 	}
 }
 
 // Sends the "heartbeat" to AWS periodically, multiplying milliseconds to minutes
-if (heartbeatEnabled) {
+if (heartbeatEnabled == true) {
 	setInterval(heartbeat, (heartbeatPeriod * 60000));
 }
 
@@ -261,6 +261,6 @@ function initiateShutdown() {
 		util.print('stderr: ' + stderr);
 		if (error !== null) {
 			console.log('exec error: ' + error);
-		};
+		}
 	});
-};
+}
