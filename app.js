@@ -127,7 +127,7 @@ var board = new Board({
 					}
 					device.publish(systemTopic, JSON.stringify(output, null, 2));
 					console.log(JSON.stringify(output, null, 2));
-					initiateShutdown();
+					// initiateShutdown();
 				}
 			});
 			shutdownButton.watch();
