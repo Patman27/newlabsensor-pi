@@ -10,7 +10,7 @@
  */
 
 // Prints sensor data to the terminal if enabled
-var debugEnabled = false;
+var debugEnabled = true;
 
 // Dependencies needed to allow system shutdown via Node.js
 var util = require('util');
