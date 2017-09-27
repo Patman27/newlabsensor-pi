@@ -22,11 +22,16 @@
 # lines into the "/etc/rc.local" file, or in the "sudo crontab -e"
 # file. Neither have been tested with this test setup, however.
 #
-# 2) Starts the Raspberry Pi camera image capture software, with the
+# 2) Mount a USB flash drive as an external storage medium for Motion
+# image output. This is necessary when capturing every motion frame
+# for raw data capture. For instructions on how to do this, read
+# https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/
+#
+# 3) Starts the Raspberry Pi camera image capture software, with the
 # "motion" command, which takes photos of motion events and triggers
 # their upload to AWS S3.
 #
-# 3) Starts the Newlab Sensor Platform prototype software, with the
+# 4) Starts the Newlab Sensor Platform prototype software, with the
 # filename "app.js", which polls the attached Grove sensors and
 # uploads the readings to AWS DynamoDB via MQTT.
 # NOTE: The "node-startup" script was used for this, since calling a
@@ -45,12 +50,15 @@ sudo ip route delete default dev eth0
 sleep 2
 sudo ip route add default dev eth1
 
-
 # Task 2 (see above)
+# Note that this particular flash drive appears as 'sda2'
+sudo mount /dev/sda2 /media/motion
+
+# Task 3 (see above)
 motion -c /home/pi/newlabsensor-pi/motion/motion.conf
 
 
-# Task 3 (see above)
+# Task 4 (see above)
 # Remove the old PID, in case the Pi was not shut down properly
 rm -f /home/pi/newlabsensor-pi/pid/*.pid
 # Start the app
