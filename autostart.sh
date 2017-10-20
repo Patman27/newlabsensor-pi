@@ -52,7 +52,7 @@ sudo ip route add default dev eth1
 
 # Task 2 (see above)
 # Note that this particular flash drive appears as 'sda2'
-sudo mount /dev/sda2 /media/motion
+#sudo mount /dev/sda2 /media/motion
 
 # Task 3 (see above)
 motion -c /home/pi/newlabsensor-pi/motion/motion.conf
