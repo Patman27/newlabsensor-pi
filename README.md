@@ -18,6 +18,3 @@ A 4G LTE cellular network interface is used for this project, which necessitates
 
 To enable legacy unpredictable names, use the following terminal command:
 `ln -s /dev/null /etc/systemd/network/99-default.link`
-
-
-More documentation to follow...
